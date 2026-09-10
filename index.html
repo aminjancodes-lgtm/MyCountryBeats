@@ -4,227 +4,89 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyCountryBeats — Whose Country Wins?</title>
+<meta name="description" content="Pick two countries and see which one wins on natural beauty, army, food, weather, culture and innovation. Fast, fun, and made to replay.">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --sky-top:#4FC3F7;
-    --sky-bot:#8FE3D0;
-    --sun:#FFD23F;
-    --ink:#1B2A4A;
-    --card:#FFFFFF;
-    --a-color:#FF6B5B;
-    --b-color:#3D8BFF;
-    --win:#2ECC71;
-    --shadow: 0 10px 0 rgba(27,42,74,0.18);
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;height:100%;}
-  body{
-    font-family:'Nunito',sans-serif;
-    color:var(--ink);
-    min-height:100vh;
-    background:
-      radial-gradient(circle at 85% 8%, var(--sun) 0%, rgba(255,210,63,0) 22%),
-      linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bot) 100%);
-    overflow-x:hidden;
-    position:relative;
-  }
-  .cloud{
-    position:absolute; background:#fff; border-radius:50px; opacity:.75;
-  }
-  .cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%;}
-  .cloud1{width:120px;height:40px; top:6%; left:6%;}
-  .cloud1:before{width:60px;height:60px; top:-30px; left:15px;}
-  .cloud1:after{width:44px;height:44px; top:-20px; left:65px;}
-  .cloud2{width:90px;height:32px; top:14%; right:10%;}
-  .cloud2:before{width:46px;height:46px; top:-22px; left:10px;}
-  .cloud2:after{width:34px;height:34px; top:-14px; left:50px;}
-  .ground{
-    position:fixed; bottom:0; left:0; width:100%; height:70px;
-    background:#3CCB6F; z-index:0;
-    clip-path: polygon(0 40px, 6% 10px, 14% 34px, 22% 6px, 30% 30px, 40% 4px, 50% 26px, 60% 2px, 70% 30px, 80% 8px, 90% 32px, 100% 12px, 100% 100%, 0 100%);
-  }
-  header.topbar{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:16px 22px; position:relative; z-index:2;
-  }
-  .logo{
-    font-family:'Baloo 2', sans-serif; font-weight:800; font-size:22px; color:var(--ink);
-    display:flex; align-items:center; gap:8px;
-  }
-  .logo span{color:var(--a-color);}
-  .stats{
-    font-weight:800; background:#fff; padding:8px 14px; border-radius:20px;
-    box-shadow:0 4px 0 rgba(27,42,74,0.15); font-size:14px;
-  }
-  #muteBtn{
-    border:none; background:#fff; width:40px; height:40px; border-radius:50%;
-    font-size:18px; cursor:pointer; box-shadow:0 4px 0 rgba(27,42,74,0.15);
-  }
-  #muteBtn:active{transform:translateY(2px); box-shadow:0 2px 0 rgba(27,42,74,0.15);}
-  main{position:relative; z-index:2; max-width:900px; margin:0 auto; padding:10px 18px 100px;}
-  .screen{display:none;}
-  .screen.active{display:block; animation:fadeIn .35s ease;}
-  @keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
-
-  h1{
-    font-family:'Baloo 2', sans-serif; text-align:center; font-size:clamp(28px,5vw,42px);
-    margin:10px 0 26px; color:var(--ink);
-  }
-
-  .arena{display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap;}
-  .picker{
-    background:var(--card); border-radius:22px; padding:20px; width:230px; text-align:center;
-    box-shadow:var(--shadow);
-  }
-  .picker.sideA{border-bottom:6px solid var(--a-color);}
-  .picker.sideB{border-bottom:6px solid var(--b-color);}
-  .flagDisplay{font-size:64px; line-height:1; margin-bottom:10px; min-height:70px; display:flex; align-items:center; justify-content:center;}
-  select{
-    width:100%; padding:10px; border-radius:12px; border:2px solid #E4E9F0; font-family:'Nunito';
-    font-weight:800; font-size:14px; background:#F7F9FC; color:var(--ink); cursor:pointer;
-  }
-  .vs-badge{
-    font-family:'Baloo 2'; font-weight:800; font-size:34px; color:var(--card);
-    background:var(--a-color); background:linear-gradient(135deg,var(--a-color),var(--b-color));
-    width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-    box-shadow:0 6px 0 rgba(27,42,74,0.2); transform:rotate(-8deg);
-  }
-  .actions{display:flex; gap:14px; justify-content:center; margin-top:28px; flex-wrap:wrap;}
-  button.big{
-    font-family:'Baloo 2'; font-weight:700; font-size:19px; border:none; border-radius:16px;
-    padding:14px 26px; cursor:pointer; color:#fff; box-shadow:0 6px 0 rgba(27,42,74,0.25);
-    transition:transform .08s;
-  }
-  button.big:active{transform:translateY(4px); box-shadow:0 2px 0 rgba(27,42,74,0.25);}
-  button.big:disabled{opacity:.45; cursor:not-allowed;}
-  #fightBtn{background:var(--a-color);}
-  #randomBtn{background:#FFB800;}
-  #rematchBtn{background:var(--b-color);}
-  #newBattleBtn{background:#8B5CF6;}
-  .disclaimer{text-align:center; font-size:13px; opacity:.75; margin-top:24px;}
-  .social-links{display:flex; justify-content:center; gap:12px; margin-top:16px; flex-wrap:wrap;}
-  .social-links a{
-    color:var(--ink); text-decoration:none; font-weight:800; background:#fff;
-    padding:6px 14px; border-radius:20px; box-shadow:0 4px 0 rgba(27,42,74,0.15); font-size:13px;
-    transition:transform .08s;
-  }
-  .social-links a:active{transform:translateY(2px);}
-
-  /* battle screen */
-  .battleHeader{display:flex; align-items:center; justify-content:space-between; margin-top:8px;}
-  .fighter{display:flex; flex-direction:column; align-items:center; width:130px; font-weight:800;}
-  .fighter .fEmoji{font-size:42px;}
-  .roundInfo{font-family:'Baloo 2'; font-size:16px; opacity:.8;}
-  .scoreRow{display:flex; justify-content:space-between; margin:14px 0 6px; padding:0 20px;}
-  .scoreNum{
-    font-family:'Baloo 2'; font-size:46px; font-weight:800;
-  }
-  #scoreA{color:var(--a-color);}
-  #scoreB{color:var(--b-color);}
-  .scoreRow.bump #scoreA, .scoreRow.bump #scoreB{animation:bump .35s ease;}
-  @keyframes bump{0%{transform:scale(1);}40%{transform:scale(1.35);}100%{transform:scale(1);}}
-
-  .categoryCard{
-    background:var(--card); border-radius:22px; padding:26px; text-align:center; box-shadow:var(--shadow);
-    margin-top:10px;
-  }
-  .catIcon{font-size:46px;}
-  .catName{font-family:'Baloo 2'; font-size:22px; margin:6px 0 20px;}
-  .barWrap{display:flex; flex-direction:column; gap:14px;}
-  .barTrack{background:#EEF1F6; border-radius:10px; height:22px; overflow:hidden;}
-  .barFillA{height:100%; width:0%; background:linear-gradient(90deg,#FF9A8B,var(--a-color)); border-radius:10px; transition:width 1s cubic-bezier(.2,.8,.2,1);}
-  .barFillB{height:100%; width:0%; background:linear-gradient(90deg,#7EC8FF,var(--b-color)); border-radius:10px; transition:width 1s cubic-bezier(.2,.8,.2,1);}
-  .log{
-    margin-top:16px; text-align:center; min-height:26px; font-weight:800; font-size:15px;
-  }
-  .log span{background:#fff; padding:6px 14px; border-radius:20px; box-shadow:var(--shadow); display:inline-block;}
-
-  /* results */
-  #resultScreen{position:relative;}
-  #confettiCanvas{position:fixed; inset:0; pointer-events:none; z-index:1;}
-  .resultWrap{display:flex; align-items:flex-end; justify-content:center; gap:26px; margin-top:10px; flex-wrap:wrap; position:relative; z-index:2;}
-  .winnerSide, .loserSide{text-align:center;}
-  .winnerSide{transform:scale(1);}
-  .crown{font-size:38px; margin-bottom:-6px;}
-  .winnerFlag{font-size:100px; filter:drop-shadow(0 10px 0 rgba(27,42,74,.15));}
-  .loserFlag{font-size:70px; opacity:.6; filter:grayscale(60%);}
-  .winnerName{font-family:'Baloo 2'; font-size:26px; font-weight:800; margin-top:4px;}
-  .loserName{font-family:'Baloo 2'; font-size:18px; font-weight:700; margin-top:4px; opacity:.7;}
-  .winnerTag{
-    display:inline-block; margin-top:6px; background:var(--win); color:#fff; font-weight:800;
-    padding:5px 16px; border-radius:20px; font-size:13px; letter-spacing:.5px;
-  }
-  .loserTag{display:inline-block; margin-top:6px; color:#8a93a6; font-weight:800; font-size:13px;}
-
-  .breakdown{
-    max-width:520px; margin:34px auto 0; background:var(--card); border-radius:20px; padding:8px;
-    box-shadow:var(--shadow); position:relative; z-index:2;
-  }
-  .breakRow{
-    display:flex; align-items:center; justify-content:space-between; padding:12px 16px;
-    border-bottom:2px dashed #EEF1F6;
-  }
-  .breakRow:last-child{border-bottom:none;}
-  .breakCat{display:flex; align-items:center; gap:10px; font-weight:800;}
-  .breakWinner{font-size:22px;}
-
-  @media (max-width:520px){
-    .fighter{width:90px;}
-    .scoreNum{font-size:34px;}
-    .winnerFlag{font-size:76px;}
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="cloud cloud1"></div>
-<div class="cloud cloud2"></div>
+
+<div class="cloud cloud1 cloud-drift"></div>
+<div class="cloud cloud2 cloud-drift"></div>
 <div class="ground"></div>
 
 <header class="topbar">
-  <div class="logo">🌍 MyCountry<span>Beats</span></div>
-  <div class="stats"><span id="battleCount">0</span> battles fought</div>
-  <button id="muteBtn" title="Toggle sound">🔊</button>
+  <div class="brand">
+    <img src="assets/logo.svg" alt="MyCountryBeats logo">
+    <span class="brand-name">MyCountry<span class="beats">Beats</span></span>
+  </div>
+  <div class="topbar-right">
+    <div class="stats"><span id="battleCount">0</span> battles fought</div>
+    <button class="iconBtn" id="helpBtn" title="How to play" aria-label="How to play">❓</button>
+    <button class="iconBtn" id="muteBtn" title="Toggle sound" aria-label="Toggle sound">🔊</button>
+  </div>
 </header>
 
 <main>
+
+  <!-- ============ HOME SCREEN ============ -->
   <section id="homeScreen" class="screen active">
     <h1>Pick two countries. See who wins.</h1>
+
     <div class="arena">
-      <div class="picker sideA">
-        <div class="flagDisplay" id="flagA">🏳️</div>
-        <select id="selectA"></select>
+      <!-- Picker A -->
+      <div class="picker sideA" id="pickerA">
+        <button class="pickerTrigger" id="triggerA" type="button" aria-haspopup="listbox">
+          <span class="flagDisplay" id="flagA">🏳️</span>
+          <span class="pickerLabel" id="labelA">Choose Country A</span>
+          <span class="chevron">▾</span>
+        </button>
+        <div class="dropdown" id="dropdownA" role="listbox">
+          <input type="text" class="dropdownSearch" id="searchA" placeholder="Search countries…">
+          <div class="dropdownList" id="listA"></div>
+        </div>
       </div>
+
       <div class="vs-badge">VS</div>
-      <div class="picker sideB">
-        <div class="flagDisplay" id="flagB">🏳️</div>
-        <select id="selectB"></select>
+
+      <!-- Picker B -->
+      <div class="picker sideB" id="pickerB">
+        <button class="pickerTrigger" id="triggerB" type="button" aria-haspopup="listbox">
+          <span class="flagDisplay" id="flagB">🏳️</span>
+          <span class="pickerLabel" id="labelB">Choose Country B</span>
+          <span class="chevron">▾</span>
+        </button>
+        <div class="dropdown" id="dropdownB" role="listbox">
+          <input type="text" class="dropdownSearch" id="searchB" placeholder="Search countries…">
+          <div class="dropdownList" id="listB"></div>
+        </div>
       </div>
     </div>
+
     <div class="actions">
       <button class="big" id="fightBtn" disabled>⚔️ FIGHT!</button>
       <button class="big" id="randomBtn">🎲 Surprise Me</button>
     </div>
+
     <p class="disclaimer">Scores are for-fun vibes on beauty, army, food, weather, culture &amp; tech — not an official ranking 😄</p>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/amin-jan-614210422/" target="_blank">LinkedIn</a>
-      <a href="https://www.instagram.com/aminjancodes/?hl=en" target="_blank">Instagram</a>
-      <a href="https://github.com/aminjancodes-lgtm" target="_blank">GitHub</a>
-    </div>
   </section>
 
+  <!-- ============ BATTLE SCREEN ============ -->
   <section id="battleScreen" class="screen">
     <div class="battleHeader">
       <div class="fighter"><span class="fEmoji" id="battleFlagA"></span><span id="battleNameA"></span></div>
       <div class="roundInfo" id="roundLabel">Round 1 / 6</div>
       <div class="fighter"><span class="fEmoji" id="battleFlagB"></span><span id="battleNameB"></span></div>
     </div>
+
     <div class="scoreRow" id="scoreRow">
       <div class="scoreNum" id="scoreA">0</div>
       <div class="scoreNum" id="scoreB">0</div>
     </div>
-    <div class="categoryCard">
+
+    <div class="categoryCard" id="categoryCard">
       <div class="catIcon" id="catIcon">🏔️</div>
       <div class="catName" id="catName">Natural Beauty</div>
       <div class="barWrap">
@@ -232,11 +94,12 @@
         <div class="barTrack"><div class="barFillB" id="barB"></div></div>
       </div>
     </div>
+
     <div class="log" id="battleLog"></div>
   </section>
 
+  <!-- ============ RESULT SCREEN ============ -->
   <section id="resultScreen" class="screen">
-    <canvas id="confettiCanvas"></canvas>
     <div class="resultWrap">
       <div class="winnerSide">
         <div class="crown">👑</div>
@@ -250,313 +113,50 @@
         <div class="loserTag">so close!</div>
       </div>
     </div>
+
     <div class="breakdown" id="breakdown"></div>
+
     <div class="actions">
       <button class="big" id="rematchBtn">🔁 Rematch</button>
+      <button class="big" id="shareBtn">📋 Share Result</button>
       <button class="big" id="newBattleBtn">🆕 New Battle</button>
     </div>
   </section>
+
 </main>
 
-<script>
-/* ---------------------------------------------------------
-   COUNTRY DATA
-   Scores 1-10 per category, for-fun approximations based on
-   general reputation (not an official scientific ranking).
---------------------------------------------------------- */
-const CATS = [
-  {key:'nature',  icon:'🏔️', label:'Natural Beauty'},
-  {key:'army',    icon:'🎖️', label:'Military Might'},
-  {key:'food',    icon:'🍜', label:'Food'},
-  {key:'weather', icon:'☀️', label:'Weather'},
-  {key:'culture', icon:'🏛️', label:'Culture & History'},
-  {key:'tech',    icon:'🚀', label:'Innovation'}
-];
+<footer class="siteFooter">
+  <div class="footerCredit">Built by <strong>Amin Jan</strong> · MyCountryBeats</div>
+  <div class="socialRow">
+    <a class="socialBtn" href="https://www.linkedin.com/in/amin-jan-614210422/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5ZM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H17v-5.6c0-1.34-.02-3.05-1.86-3.05-1.87 0-2.16 1.46-2.16 2.96V21H9z"/></svg>
+    </a>
+    <a class="socialBtn" href="https://github.com/aminjancodes-lgtm" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.2-3.37-1.2-.46-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+    </a>
+    <a class="socialBtn" href="https://www.instagram.com/aminjancodes/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+    </a>
+  </div>
+</footer>
 
-const COUNTRIES = [
-  {name:'United States', flag:'🇺🇸', nature:9, army:10, food:7, weather:6, culture:8, tech:10},
-  {name:'Canada',        flag:'🇨🇦', nature:10,army:5,  food:6, weather:4, culture:6, tech:7},
-  {name:'Brazil',        flag:'🇧🇷', nature:10,army:6,  food:8, weather:7, culture:9, tech:5},
-  {name:'Mexico',        flag:'🇲🇽', nature:8, army:4,  food:10,weather:8, culture:8, tech:4},
-  {name:'United Kingdom',flag:'🇬🇧', nature:6, army:8,  food:5, weather:4, culture:9, tech:8},
-  {name:'France',        flag:'🇫🇷', nature:8, army:8,  food:10,weather:6, culture:10,tech:7},
-  {name:'Germany',       flag:'🇩🇪', nature:6, army:7,  food:6, weather:5, culture:8, tech:9},
-  {name:'Italy',         flag:'🇮🇹', nature:8, army:6,  food:10,weather:8, culture:10,tech:6},
-  {name:'Spain',         flag:'🇪🇸', nature:8, army:6,  food:9, weather:9, culture:9, tech:6},
-  {name:'Portugal',      flag:'🇵🇹', nature:7, army:4,  food:8, weather:8, culture:7, tech:5},
-  {name:'Russia',        flag:'🇷🇺', nature:8, army:9,  food:5, weather:3, culture:8, tech:7},
-  {name:'China',         flag:'🇨🇳', nature:7, army:9,  food:9, weather:5, culture:9, tech:9},
-  {name:'Japan',         flag:'🇯🇵', nature:8, army:6,  food:10,weather:6, culture:9, tech:10},
-  {name:'South Korea',   flag:'🇰🇷', nature:6, army:7,  food:8, weather:5, culture:7, tech:9},
-  {name:'India',         flag:'🇮🇳', nature:8, army:8,  food:9, weather:5, culture:10,tech:7},
-  {name:'Pakistan',      flag:'🇵🇰', nature:8, army:7,  food:8, weather:5, culture:7, tech:4},
-  {name:'Indonesia',     flag:'🇮🇩', nature:9, army:5,  food:8, weather:6, culture:7, tech:4},
-  {name:'Thailand',      flag:'🇹🇭', nature:9, army:4,  food:9, weather:6, culture:7, tech:4},
-  {name:'Turkey',        flag:'🇹🇷', nature:7, army:7,  food:9, weather:7, culture:8, tech:5},
-  {name:'Egypt',         flag:'🇪🇬', nature:6, army:6,  food:6, weather:6, culture:9, tech:3},
-  {name:'Nigeria',       flag:'🇳🇬', nature:6, army:5,  food:6, weather:5, culture:7, tech:3},
-  {name:'South Africa',  flag:'🇿🇦', nature:9, army:5,  food:6, weather:7, culture:7, tech:4},
-  {name:'Australia',     flag:'🇦🇺', nature:10,army:6,  food:6, weather:7, culture:6, tech:7},
-  {name:'New Zealand',   flag:'🇳🇿', nature:10,army:3,  food:6, weather:6, culture:6, tech:6},
-  {name:'Switzerland',   flag:'🇨🇭', nature:10,army:5,  food:6, weather:6, culture:6, tech:9},
-  {name:'Netherlands',   flag:'🇳🇱', nature:6, army:5,  food:5, weather:4, culture:7, tech:8},
-  {name:'Sweden',        flag:'🇸🇪', nature:8, army:5,  food:5, weather:4, culture:6, tech:9},
-  {name:'Norway',        flag:'🇳🇴', nature:10,army:5,  food:5, weather:3, culture:6, tech:8},
-  {name:'Iceland',       flag:'🇮🇸', nature:10,army:1,  food:5, weather:3, culture:5, tech:6},
-  {name:'Greece',        flag:'🇬🇷', nature:8, army:6,  food:8, weather:8, culture:10,tech:5},
-  {name:'Saudi Arabia',  flag:'🇸🇦', nature:5, army:7,  food:6, weather:3, culture:6, tech:6},
-  {name:'United Arab Emirates', flag:'🇦🇪', nature:5, army:6, food:6, weather:3, culture:5, tech:8},
-  {name:'Israel',        flag:'🇮🇱', nature:6, army:8,  food:7, weather:7, culture:7, tech:9},
-  {name:'Argentina',     flag:'🇦🇷', nature:9, army:5,  food:8, weather:7, culture:8, tech:5},
-  {name:'Colombia',      flag:'🇨🇴', nature:9, army:5,  food:7, weather:7, culture:7, tech:4},
-  {name:'Peru',          flag:'🇵🇪', nature:9, army:4,  food:8, weather:6, culture:8, tech:3},
-  {name:'Vietnam',       flag:'🇻🇳', nature:8, army:6,  food:9, weather:6, culture:7, tech:5},
-  {name:'Philippines',   flag:'🇵🇭', nature:9, army:4,  food:6, weather:6, culture:6, tech:4},
-  {name:'Malaysia',      flag:'🇲🇾', nature:8, army:4,  food:8, weather:6, culture:6, tech:5},
-  {name:'Ukraine',       flag:'🇺🇦', nature:6, army:7,  food:5, weather:5, culture:6, tech:5},
-  {name:'Poland',        flag:'🇵🇱', nature:6, army:6,  food:5, weather:4, culture:6, tech:6}
-];
-COUNTRIES.sort((a,b)=>a.name.localeCompare(b.name));
+<!-- ============ HOW TO PLAY MODAL ============ -->
+<div class="modalOverlay" id="modalOverlay">
+  <div class="modalCard">
+    <h2>🌍 How to play</h2>
+    <ol>
+      <li>Pick two countries (or hit <strong>Surprise Me</strong>).</li>
+      <li>Watch them battle across 6 categories: beauty, army, food, weather, culture &amp; tech.</li>
+      <li>Whoever wins the most rounds is crowned <strong>Champion</strong>.</li>
+      <li>Rematch, share your result, or start a new battle — again and again!</li>
+    </ol>
+    <button class="big" id="modalCloseBtn" style="background:#3D8BFF;">Got it, let's play!</button>
+  </div>
+</div>
 
-/* ---------------------------------------------------------
-   SOUND — tiny synth, no audio files needed
---------------------------------------------------------- */
-let audioCtx=null, muted=false;
-function ensureCtx(){ if(!audioCtx){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); } return audioCtx; }
-function tone(freq, dur, type='sine', delay=0, vol=0.18){
-  if(muted) return;
-  const ctx = ensureCtx();
-  const t0 = ctx.currentTime + delay;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type=type; osc.frequency.setValueAtTime(freq,t0);
-  gain.gain.setValueAtTime(0,t0);
-  gain.gain.linearRampToValueAtTime(vol,t0+0.02);
-  gain.gain.exponentialRampToValueAtTime(0.001,t0+dur);
-  osc.connect(gain).connect(ctx.destination);
-  osc.start(t0); osc.stop(t0+dur+0.02);
-}
-function sfxClick(){ tone(520,0.08,'square'); }
-function sfxDing(win){ win==='a'? tone(660,0.18,'triangle') : tone(500,0.18,'triangle'); }
-function sfxTie(){ tone(300,0.15,'sine'); }
-function sfxFanfare(){
-  [523,659,784,1046].forEach((f,i)=> tone(f,0.28,'triangle', i*0.14, 0.16));
-}
-document.getElementById('muteBtn').addEventListener('click', ()=>{
-  muted = !muted;
-  document.getElementById('muteBtn').textContent = muted ? '🔇' : '🔊';
-});
+<div class="toast" id="toast"></div>
+<canvas id="confettiCanvas"></canvas>
 
-/* ---------------------------------------------------------
-   SCREENS
---------------------------------------------------------- */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-const selectA = document.getElementById('selectA');
-const selectB = document.getElementById('selectB');
-const flagA = document.getElementById('flagA');
-const flagB = document.getElementById('flagB');
-const fightBtn = document.getElementById('fightBtn');
-
-function fillSelect(sel, placeholder){
-  sel.innerHTML = `<option value="">${placeholder}</option>` +
-    COUNTRIES.map((c,i)=>`<option value="${i}">${c.flag} ${c.name}</option>`).join('');
-}
-fillSelect(selectA,'Choose country A…');
-fillSelect(selectB,'Choose country B…');
-
-function refreshPickers(){
-  const ai = selectA.value, bi = selectB.value;
-  flagA.textContent = ai!=='' ? COUNTRIES[ai].flag : '🏳️';
-  flagB.textContent = bi!=='' ? COUNTRIES[bi].flag : '🏳️';
-  const ready = ai!=='' && bi!=='' && ai!==bi;
-  fightBtn.disabled = !ready;
-  if(ai!=='' && ai===bi){
-    fightBtn.disabled = true;
-  }
-}
-selectA.addEventListener('change', refreshPickers);
-selectB.addEventListener('change', refreshPickers);
-
-document.getElementById('randomBtn').addEventListener('click', ()=>{
-  sfxClick();
-  let ai = Math.floor(Math.random()*COUNTRIES.length);
-  let bi = Math.floor(Math.random()*COUNTRIES.length);
-  while(bi===ai){ bi = Math.floor(Math.random()*COUNTRIES.length); }
-  selectA.value = ai; selectB.value = bi;
-  refreshPickers();
-});
-
-let battleState = null;
-
-function startBattle(){
-  const ai = parseInt(selectA.value), bi = parseInt(selectB.value);
-  battleState = {
-    a: COUNTRIES[ai], b: COUNTRIES[bi],
-    round: 0, scoreA: 0, scoreB: 0, totalA:0, totalB:0,
-    results: []
-  };
-  document.getElementById('battleFlagA').textContent = battleState.a.flag;
-  document.getElementById('battleFlagB').textContent = battleState.b.flag;
-  document.getElementById('battleNameA').textContent = battleState.a.name;
-  document.getElementById('battleNameB').textContent = battleState.b.name;
-  document.getElementById('scoreA').textContent = '0';
-  document.getElementById('scoreB').textContent = '0';
-  document.getElementById('barA').style.width='0%';
-  document.getElementById('barB').style.width='0%';
-  document.getElementById('battleLog').innerHTML='';
-  showScreen('battleScreen');
-  nextRound();
-}
-
-function nextRound(){
-  if(battleState.round >= CATS.length){
-    setTimeout(finishBattle, 700);
-    return;
-  }
-  const cat = CATS[battleState.round];
-  document.getElementById('roundLabel').textContent = `Round ${battleState.round+1} / ${CATS.length}`;
-  document.getElementById('catIcon').textContent = cat.icon;
-  document.getElementById('catName').textContent = cat.label;
-  const barA = document.getElementById('barA');
-  const barB = document.getElementById('barB');
-  barA.style.width='0%'; barB.style.width='0%';
-  const log = document.getElementById('battleLog');
-  log.innerHTML='';
-
-  const vA = battleState.a[cat.key], vB = battleState.b[cat.key];
-  requestAnimationFrame(()=>{
-    setTimeout(()=>{
-      barA.style.width = (vA*10)+'%';
-      barB.style.width = (vB*10)+'%';
-    }, 120);
-  });
-
-  setTimeout(()=>{
-    let winner;
-    if(vA>vB){ battleState.scoreA++; winner='a'; }
-    else if(vB>vA){ battleState.scoreB++; winner='b'; }
-    else { winner='tie'; }
-    battleState.totalA += vA; battleState.totalB += vB;
-    battleState.results.push({cat, vA, vB, winner});
-
-    document.getElementById('scoreA').textContent = battleState.scoreA;
-    document.getElementById('scoreB').textContent = battleState.scoreB;
-    const scoreRow = document.getElementById('scoreRow');
-    scoreRow.classList.remove('bump'); void scoreRow.offsetWidth; scoreRow.classList.add('bump');
-
-    if(winner==='tie'){
-      sfxTie();
-      log.innerHTML = `<span>🤝 Tie in ${cat.label}!</span>`;
-    } else {
-      sfxDing(winner);
-      const c = winner==='a' ? battleState.a : battleState.b;
-      log.innerHTML = `<span>${c.flag} ${c.name} wins ${cat.label}!</span>`;
-    }
-
-    battleState.round++;
-    setTimeout(nextRound, 1100);
-  }, 1250);
-}
-
-function finishBattle(){
-  let championIsA;
-  if(battleState.scoreA !== battleState.scoreB){
-    championIsA = battleState.scoreA > battleState.scoreB;
-  } else {
-    championIsA = battleState.totalA >= battleState.totalB;
-  }
-  const champ = championIsA ? battleState.a : battleState.b;
-  const loser = championIsA ? battleState.b : battleState.a;
-
-  document.getElementById('winnerFlag').textContent = champ.flag;
-  document.getElementById('winnerName').textContent = champ.name;
-  document.getElementById('loserFlag').textContent = loser.flag;
-  document.getElementById('loserName').textContent = loser.name;
-
-  const breakdown = document.getElementById('breakdown');
-  breakdown.innerHTML = battleState.results.map(r=>{
-    let icon;
-    if(r.winner==='tie') icon='🤝';
-    else icon = (r.winner==='a') ? battleState.a.flag : battleState.b.flag;
-    return `<div class="breakRow">
-      <div class="breakCat">${r.cat.icon} ${r.cat.label}</div>
-      <div class="breakWinner">${icon}</div>
-    </div>`;
-  }).join('');
-
-  const count = parseInt(localStorage.getItem('cc_battles')||'0',10) + 1;
-  localStorage.setItem('cc_battles', count);
-  document.getElementById('battleCount').textContent = count;
-
-  showScreen('resultScreen');
-  sfxFanfare();
-  launchConfetti();
-}
-
-fightBtn.addEventListener('click', ()=>{ ensureCtx(); sfxClick(); startBattle(); });
-document.getElementById('rematchBtn').addEventListener('click', ()=>{ sfxClick(); startBattle(); });
-document.getElementById('newBattleBtn').addEventListener('click', ()=>{
-  sfxClick();
-  selectA.value=''; selectB.value=''; refreshPickers();
-  showScreen('homeScreen');
-});
-
-/* ---------------------------------------------------------
-   CONFETTI
---------------------------------------------------------- */
-const canvas = document.getElementById('confettiCanvas');
-const ctx2d = canvas.getContext('2d');
-function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-const CONFETTI_COLORS = ['#FF6B5B','#3D8BFF','#FFD23F','#3CCB6F','#8B5CF6'];
-let particles = [];
-let confettiAnimId = null;
-
-function launchConfetti(){
-  particles = [];
-  for(let i=0;i<160;i++){
-    particles.push({
-      x: Math.random()*canvas.width,
-      y: -20 - Math.random()*canvas.height*0.5,
-      vx: (Math.random()-0.5)*3,
-      vy: 2 + Math.random()*3,
-      size: 6 + Math.random()*6,
-      color: CONFETTI_COLORS[Math.floor(Math.random()*CONFETTI_COLORS.length)],
-      rot: Math.random()*Math.PI*2,
-      vr: (Math.random()-0.5)*0.3,
-      life: 0
-    });
-  }
-  if(confettiAnimId) cancelAnimationFrame(confettiAnimId);
-  animateConfetti();
-}
-function animateConfetti(){
-  ctx2d.clearRect(0,0,canvas.width,canvas.height);
-  let alive=false;
-  particles.forEach(p=>{
-    p.life++;
-    p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.rot += p.vr;
-    if(p.y < canvas.height+20 && p.life < 480){ alive=true; }
-    ctx2d.save();
-    ctx2d.translate(p.x,p.y);
-    ctx2d.rotate(p.rot);
-    ctx2d.fillStyle = p.color;
-    ctx2d.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);
-    ctx2d.restore();
-  });
-  if(alive){ confettiAnimId = requestAnimationFrame(animateConfetti); }
-  else { ctx2d.clearRect(0,0,canvas.width,canvas.height); }
-}
-
-/* init */
-document.getElementById('battleCount').textContent = localStorage.getItem('cc_battles')||'0';
-refreshPickers();
-</script>
+<script src="script.js"></script>
 </body>
 </html>

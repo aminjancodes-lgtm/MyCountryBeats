@@ -1,0 +1,338 @@
+/* =========================================================
+   MyCountryBeats — Stylesheet
+   Sections:
+   1. Reset & Variables
+   2. Background & Scenery
+   3. Header
+   4. Buttons (shared)
+   5. Home Screen / Country Picker
+   6. Battle Screen
+   7. Result Screen
+   8. Modal (How To Play)
+   9. Toast
+   10. Confetti Canvas
+   11. Footer
+   12. Responsive
+   ========================================================= */
+
+/* ---------- 1. Reset & Variables ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+
+:root{
+  --sky-top:#4FC3F7;
+  --sky-bot:#8FE3D0;
+  --sun:#FFD23F;
+  --ink:#1B2A4A;
+  --ink-soft:#5C6B85;
+  --card:#FFFFFF;
+  --a-color:#FF6B5B;
+  --b-color:#3D8BFF;
+  --win:#2ECC71;
+  --purple:#8B5CF6;
+  --shadow: 0 10px 0 rgba(27,42,74,0.18);
+  --shadow-sm: 0 4px 0 rgba(27,42,74,0.15);
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --font-display: 'Baloo 2', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+}
+
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- 2. Background & Scenery ---------- */
+body{
+  background:
+    radial-gradient(circle at 85% 8%, var(--sun) 0%, rgba(255,210,63,0) 22%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bot) 100%);
+}
+
+.cloud{ position:absolute; background:#fff; border-radius:50px; opacity:.75; }
+.cloud::before, .cloud::after{ content:""; position:absolute; background:#fff; border-radius:50%; }
+.cloud1{ width:120px; height:40px; top:6%; left:6%; }
+.cloud1::before{ width:60px; height:60px; top:-30px; left:15px; }
+.cloud1::after{ width:44px; height:44px; top:-20px; left:65px; }
+.cloud2{ width:90px; height:32px; top:14%; right:10%; }
+.cloud2::before{ width:46px; height:46px; top:-22px; left:10px; }
+.cloud2::after{ width:34px; height:34px; top:-14px; left:50px; }
+
+.cloud-drift{ animation: drift 40s linear infinite; }
+@keyframes drift{
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(-24px); }
+  100% { transform: translateX(0); }
+}
+
+.ground{
+  position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
+  background: #3CCB6F; z-index: 0;
+  clip-path: polygon(0 40px, 6% 10px, 14% 34px, 22% 6px, 30% 30px, 40% 4px, 50% 26px, 60% 2px, 70% 30px, 80% 8px, 90% 32px, 100% 12px, 100% 100%, 0 100%);
+}
+
+/* ---------- 3. Header ---------- */
+header.topbar{
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 22px; position: relative; z-index: 5; gap: 10px;
+}
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand img{ width: 38px; height: 38px; display:block; }
+.brand-name{
+  font-family: var(--font-display); font-weight: 800; font-size: 21px; color: var(--ink);
+}
+.brand-name .beats{ color: var(--a-color); }
+
+.topbar-right{ display:flex; align-items:center; gap:10px; }
+
+.stats{
+  font-weight: 800; background: #fff; padding: 8px 14px; border-radius: 20px;
+  box-shadow: var(--shadow-sm); font-size: 14px; white-space: nowrap;
+}
+
+.iconBtn{
+  border: none; background: #fff; width: 40px; height: 40px; border-radius: 50%;
+  font-size: 17px; cursor: pointer; box-shadow: var(--shadow-sm);
+  display:flex; align-items:center; justify-content:center;
+  transition: transform .08s;
+}
+.iconBtn:active{ transform: translateY(2px); box-shadow: 0 2px 0 rgba(27,42,74,0.15); }
+
+/* ---------- 4. Buttons (shared) ---------- */
+main{ position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 10px 18px 60px; }
+
+.screen{ display:none; }
+.screen.active{ display:block; animation: fadeIn .35s ease; }
+@keyframes fadeIn{
+  from{ opacity:0; transform: translateY(8px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+h1{
+  font-family: var(--font-display); text-align: center; font-size: clamp(26px,5vw,40px);
+  margin: 10px 0 26px; color: var(--ink);
+}
+
+button.big{
+  font-family: var(--font-display); font-weight: 700; font-size: 18px; border: none;
+  border-radius: var(--radius-md); padding: 14px 26px; cursor: pointer; color: #fff;
+  box-shadow: 0 6px 0 rgba(27,42,74,0.25); transition: transform .08s;
+}
+button.big:active{ transform: translateY(4px); box-shadow: 0 2px 0 rgba(27,42,74,0.25); }
+button.big:disabled{ opacity: .45; cursor: not-allowed; }
+
+#fightBtn{ background: var(--a-color); }
+#randomBtn{ background: #FFB800; }
+#rematchBtn{ background: var(--b-color); }
+#newBattleBtn{ background: var(--purple); }
+#shareBtn{ background: var(--win); }
+
+.actions{ display:flex; gap:14px; justify-content:center; margin-top:28px; flex-wrap:wrap; }
+.disclaimer{ text-align:center; font-size:13px; opacity:.75; margin-top:24px; }
+
+/* ---------- 5. Home Screen / Country Picker ---------- */
+.arena{ display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; }
+
+.picker{ width: 240px; position: relative; }
+
+.pickerTrigger{
+  width:100%; background: var(--card); border: none; border-radius: var(--radius-lg);
+  padding: 20px; text-align:center; box-shadow: var(--shadow); cursor:pointer;
+  font-family: var(--font-body); display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.picker.sideA .pickerTrigger{ border-bottom: 6px solid var(--a-color); }
+.picker.sideB .pickerTrigger{ border-bottom: 6px solid var(--b-color); }
+
+.flagDisplay{
+  font-size: 60px; line-height:1; min-height:66px; display:flex; align-items:center; justify-content:center;
+  animation: wiggle 3.5s ease-in-out infinite;
+}
+@keyframes wiggle{
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-4deg); }
+  75%      { transform: rotate(4deg); }
+}
+
+.pickerLabel{ font-weight: 800; font-size: 14px; color: var(--ink-soft); }
+.pickerLabel.chosen{ color: var(--ink); }
+.chevron{ font-size: 12px; color: var(--ink-soft); }
+
+.vs-badge{
+  font-family: var(--font-display); font-weight: 800; font-size: 32px; color: var(--card);
+  background: linear-gradient(135deg, var(--a-color), var(--b-color));
+  width: 68px; height: 68px; border-radius: 50%; display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 6px 0 rgba(27,42,74,0.2); transform: rotate(-8deg);
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%, 100% { transform: rotate(-8deg) scale(1); }
+  50%      { transform: rotate(-8deg) scale(1.08); }
+}
+
+/* Custom dropdown */
+.dropdown{
+  position:absolute; top: calc(100% + 8px); left:0; width:100%; background:#fff;
+  border-radius: var(--radius-md); box-shadow: 0 14px 30px rgba(27,42,74,0.25);
+  padding:10px; z-index: 20; display:none; max-height: 300px;
+}
+.dropdown.open{ display:block; animation: popIn .18s ease; }
+@keyframes popIn{ from{ opacity:0; transform: translateY(-6px) scale(.98); } to{ opacity:1; transform: translateY(0) scale(1); } }
+
+.dropdownSearch{
+  width:100%; padding:10px 12px; border-radius: var(--radius-sm); border:2px solid #E4E9F0;
+  font-family: var(--font-body); font-weight:700; font-size:14px; margin-bottom:8px;
+  background:#F7F9FC; color: var(--ink);
+}
+.dropdownSearch:focus{ outline:none; border-color: var(--b-color); }
+
+.dropdownList{ max-height: 220px; overflow-y:auto; }
+.dropdownItem{
+  display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px;
+  cursor:pointer; font-weight:700; font-size:14px;
+}
+.dropdownItem:hover, .dropdownItem.active{ background:#F0F4FF; }
+.dropdownItem .flagSm{ font-size:20px; }
+.dropdownItem.disabledItem{ opacity:.35; cursor:not-allowed; }
+.dropdownEmpty{ padding:14px; text-align:center; color: var(--ink-soft); font-weight:700; font-size:13px; }
+
+/* ---------- 6. Battle Screen ---------- */
+.battleHeader{ display:flex; align-items:center; justify-content:space-between; margin-top:8px; }
+.fighter{ display:flex; flex-direction:column; align-items:center; width:130px; font-weight:800; }
+.fighter .fEmoji{ font-size:42px; display:inline-block; }
+.fighter .fEmoji.entrance{ animation: dropIn .5s cubic-bezier(.2,.9,.3,1.3); }
+@keyframes dropIn{ from{ transform: translateY(-40px); opacity:0; } to{ transform: translateY(0); opacity:1; } }
+
+.roundInfo{ font-family: var(--font-display); font-size:16px; opacity:.8; }
+
+.scoreRow{ display:flex; justify-content:space-between; margin:14px 0 6px; padding:0 20px; position:relative; }
+.scoreNum{ font-family: var(--font-display); font-size:46px; font-weight:800; }
+#scoreA{ color: var(--a-color); }
+#scoreB{ color: var(--b-color); }
+.scoreRow.bump #scoreA, .scoreRow.bump #scoreB{ animation: bump .35s ease; }
+@keyframes bump{ 0%{ transform:scale(1); } 40%{ transform:scale(1.35); } 100%{ transform:scale(1); } }
+
+.floatPoint{
+  position:absolute; top:-4px; font-family: var(--font-display); font-weight:800; font-size:20px;
+  pointer-events:none; animation: floatUp 1s ease forwards;
+}
+.floatPoint.a{ left: 34px; color: var(--a-color); }
+.floatPoint.b{ right: 34px; color: var(--b-color); }
+@keyframes floatUp{
+  0%   { opacity:0; transform: translateY(0) scale(.6); }
+  20%  { opacity:1; transform: translateY(-8px) scale(1.1); }
+  100% { opacity:0; transform: translateY(-46px) scale(1); }
+}
+
+.categoryCard{
+  background: var(--card); border-radius: var(--radius-lg); padding:26px; text-align:center;
+  box-shadow: var(--shadow); margin-top:10px;
+}
+.categoryCard.shake{ animation: cardShake .4s ease; }
+@keyframes cardShake{
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+.catIcon{ font-size:46px; }
+.catName{ font-family: var(--font-display); font-size:22px; margin:6px 0 20px; }
+.barWrap{ display:flex; flex-direction:column; gap:14px; }
+.barTrack{ background:#EEF1F6; border-radius:10px; height:22px; overflow:hidden; }
+.barFillA{ height:100%; width:0%; background: linear-gradient(90deg,#FF9A8B,var(--a-color)); border-radius:10px; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+.barFillB{ height:100%; width:0%; background: linear-gradient(90deg,#7EC8FF,var(--b-color)); border-radius:10px; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+
+.log{ margin-top:16px; text-align:center; min-height:26px; font-weight:800; font-size:15px; }
+.log span{ background:#fff; padding:6px 14px; border-radius:20px; box-shadow: var(--shadow); display:inline-block; animation: popIn .25s ease; }
+
+/* ---------- 7. Result Screen ---------- */
+#resultScreen{ position:relative; }
+
+.resultWrap{
+  display:flex; align-items:flex-end; justify-content:center; gap:26px; margin-top:10px;
+  flex-wrap:wrap; position:relative; z-index:2;
+}
+.winnerSide, .loserSide{ text-align:center; }
+.winnerSide{ animation: winnerPop .6s cubic-bezier(.2,.9,.3,1.4); }
+@keyframes winnerPop{ 0%{ transform: scale(.4); opacity:0; } 100%{ transform: scale(1); opacity:1; } }
+
+.crown{ font-size:38px; margin-bottom:-6px; animation: bounce 1.4s ease-in-out infinite; }
+@keyframes bounce{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-6px); } }
+
+.winnerFlag{ font-size:100px; filter: drop-shadow(0 10px 0 rgba(27,42,74,.15)); }
+.loserFlag{ font-size:70px; opacity:.6; filter: grayscale(60%); }
+.winnerName{ font-family: var(--font-display); font-size:26px; font-weight:800; margin-top:4px; }
+.loserName{ font-family: var(--font-display); font-size:18px; font-weight:700; margin-top:4px; opacity:.7; }
+.winnerTag{
+  display:inline-block; margin-top:6px; background: var(--win); color:#fff; font-weight:800;
+  padding:5px 16px; border-radius:20px; font-size:13px; letter-spacing:.5px;
+}
+.loserTag{ display:inline-block; margin-top:6px; color:#8a93a6; font-weight:800; font-size:13px; }
+
+.breakdown{
+  max-width:520px; margin:34px auto 0; background: var(--card); border-radius:20px; padding:8px;
+  box-shadow: var(--shadow); position:relative; z-index:2;
+}
+.breakRow{
+  display:flex; align-items:center; justify-content:space-between; padding:12px 16px;
+  border-bottom:2px dashed #EEF1F6; opacity:0; animation: rowIn .35s ease forwards;
+}
+.breakRow:last-child{ border-bottom:none; }
+.breakCat{ display:flex; align-items:center; gap:10px; font-weight:800; }
+.breakWinner{ font-size:22px; }
+@keyframes rowIn{ from{ opacity:0; transform: translateX(-10px); } to{ opacity:1; transform: translateX(0); } }
+
+/* ---------- 8. Modal ---------- */
+.modalOverlay{
+  position:fixed; inset:0; background: rgba(27,42,74,0.55); z-index:50;
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.modalOverlay.open{ display:flex; animation: fadeIn .2s ease; }
+.modalCard{
+  background:#fff; border-radius: var(--radius-lg); padding:28px; max-width:420px; width:100%;
+  box-shadow: 0 20px 40px rgba(0,0,0,.25); text-align:center; animation: popIn .25s ease;
+}
+.modalCard h2{ font-family: var(--font-display); margin-top:0; font-size:24px; }
+.modalCard ol{ text-align:left; padding-left:20px; line-height:1.7; font-weight:700; color: var(--ink-soft); }
+.modalCard .big{ margin-top:14px; }
+
+/* ---------- 9. Toast ---------- */
+.toast{
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--ink); color:#fff; font-weight:800; padding:12px 20px; border-radius: 20px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25); z-index: 60; opacity:0; pointer-events:none;
+  transition: transform .25s ease, opacity .25s ease; font-size:14px; max-width: 90vw; text-align:center;
+}
+.toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- 10. Confetti Canvas ---------- */
+#confettiCanvas{ position:fixed; inset:0; pointer-events:none; z-index:40; }
+
+/* ---------- 11. Footer ---------- */
+footer.siteFooter{
+  position:relative; z-index:2; text-align:center; padding: 30px 18px 90px; color: var(--ink-soft);
+}
+.footerCredit{ font-weight:800; font-size:14px; margin-bottom:10px; }
+.footerCredit strong{ color: var(--ink); }
+.socialRow{ display:flex; justify-content:center; gap:12px; }
+.socialBtn{
+  width:38px; height:38px; border-radius:50%; background:#fff; display:flex; align-items:center;
+  justify-content:center; box-shadow: var(--shadow-sm); color: var(--ink); transition: transform .15s;
+}
+.socialBtn:hover{ transform: translateY(-3px); }
+.socialBtn svg{ width:18px; height:18px; }
+
+/* ---------- 12. Responsive ---------- */
+@media (max-width:520px){
+  .fighter{ width:90px; }
+  .scoreNum{ font-size:34px; }
+  .winnerFlag{ font-size:76px; }
+  .picker{ width: 44%; min-width: 150px; }
+  .flagDisplay{ font-size:44px; min-height:50px; }
+}
