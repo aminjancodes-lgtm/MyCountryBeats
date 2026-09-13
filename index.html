@@ -1,162 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyCountryBeats — Whose Country Wins?</title>
-<meta name="description" content="Pick two countries and see which one wins on natural beauty, army, food, weather, culture and innovation. Fast, fun, and made to replay.">
-<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCountryBeats 🥊🌍 - The Ultimate Cartoon Country Brawl!</title>
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/effects.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥊</text></svg>">
 </head>
 <body>
+    <canvas id="confetti-canvas"></canvas>
 
-<div class="cloud cloud1 cloud-drift"></div>
-<div class="cloud cloud2 cloud-drift"></div>
-<div class="ground"></div>
-
-<header class="topbar">
-  <div class="brand">
-    <img src="assets/logo.svg" alt="MyCountryBeats logo">
-    <span class="brand-name">MyCountry<span class="beats">Beats</span></span>
-  </div>
-  <div class="topbar-right">
-    <div class="stats"><span id="battleCount">0</span> battles fought</div>
-    <button class="iconBtn" id="helpBtn" title="How to play" aria-label="How to play">❓</button>
-    <button class="iconBtn" id="muteBtn" title="Toggle sound" aria-label="Toggle sound">🔊</button>
-  </div>
-</header>
-
-<main>
-
-  <!-- ============ HOME SCREEN ============ -->
-  <section id="homeScreen" class="screen active">
-    <h1>Pick two countries. See who wins.</h1>
-
-    <div class="arena">
-      <!-- Picker A -->
-      <div class="picker sideA" id="pickerA">
-        <button class="pickerTrigger" id="triggerA" type="button" aria-haspopup="listbox">
-          <span class="flagDisplay" id="flagA">🏳️</span>
-          <span class="pickerLabel" id="labelA">Choose Country A</span>
-          <span class="chevron">▾</span>
-        </button>
-        <div class="dropdown" id="dropdownA" role="listbox">
-          <input type="text" class="dropdownSearch" id="searchA" placeholder="Search countries…">
-          <div class="dropdownList" id="listA"></div>
+    <!-- Header Navigation -->
+    <header>
+        <div class="header-wrap">
+            <a href="#" class="logo-brand" onclick="location.reload(); return false;" title="MyCountryBeats Home">
+                <svg class="logo-svg" viewBox="0 0 70 60" width="50" height="42">
+                    <!-- Left Boxing Glove -->
+                    <path d="M 12 36 C 4 36 2 24 10 18 C 16 14 22 20 22 26 Z" fill="#FF4757" stroke="#0F172A" stroke-width="3" stroke-linejoin="round"/>
+                    <circle cx="11" cy="23" r="3" fill="#FFFFFF" opacity="0.4"/>
+                    <!-- Globe Base -->
+                    <circle cx="35" cy="30" r="22" fill="#1E90FF" stroke="#0F172A" stroke-width="3.5"/>
+                    <!-- Continents -->
+                    <path d="M 22 22 Q 28 16 36 20 Q 34 28 27 31 Z" fill="#2ED573"/>
+                    <path d="M 33 36 Q 44 32 46 42 Q 38 46 31 43 Z" fill="#2ED573"/>
+                    <path d="M 43 18 Q 50 20 48 27 Q 41 26 43 18 Z" fill="#2ED573"/>
+                    <!-- Eyes -->
+                    <ellipse cx="30" cy="27" rx="3.5" ry="5" fill="#0F172A"/>
+                    <ellipse cx="40" cy="27" rx="3.5" ry="5" fill="#0F172A"/>
+                    <circle cx="31" cy="25" r="1.5" fill="#FFFFFF"/>
+                    <circle cx="41" cy="25" r="1.5" fill="#FFFFFF"/>
+                    <path d="M 31 34 Q 35 39 39 34" fill="none" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Right Boxing Glove -->
+                    <path d="M 58 36 C 66 36 68 24 60 18 C 54 14 48 20 48 26 Z" fill="#FF4757" stroke="#0F172A" stroke-width="3" stroke-linejoin="round"/>
+                    <circle cx="59" cy="23" r="3" fill="#FFFFFF" opacity="0.4"/>
+                </svg>
+                <div class="logo-text-wrap">
+                    <span class="logo-tag">CARTOON BRAWL</span>
+                    <div class="logo-title">MYCOUNTRY<span>BEATS</span></div>
+                </div>
+            </a>
+            <div class="header-action">
+                <button id="sound-toggle-btn" class="sound-toggle-btn">
+                    🔊 Sound: ON
+                </button>
+            </div>
         </div>
-      </div>
+    </header>
 
-      <div class="vs-badge">VS</div>
+    <main>
+        <!-- SCREEN 1: LOBBY & CHARACTER SELECTION -->
+        <section id="setup-screen" class="setup-screen">
+            <div class="hero-header">
+                <div class="hero-pill">
+                    <span>⚡ THE ULTIMATE CARTOON SHOWDOWN ⚡</span>
+                </div>
+                <h1 class="hero-headline">WHO BEATS WHO?</h1>
+                <p class="hero-subtext">Pick two country fighters & watch them brawl automatically in an arcade cartoon clash!</p>
+            </div>
 
-      <!-- Picker B -->
-      <div class="picker sideB" id="pickerB">
-        <button class="pickerTrigger" id="triggerB" type="button" aria-haspopup="listbox">
-          <span class="flagDisplay" id="flagB">🏳️</span>
-          <span class="pickerLabel" id="labelB">Choose Country B</span>
-          <span class="chevron">▾</span>
-        </button>
-        <div class="dropdown" id="dropdownB" role="listbox">
-          <input type="text" class="dropdownSearch" id="searchB" placeholder="Search countries…">
-          <div class="dropdownList" id="listB"></div>
+            <!-- 2 Character Podiums -->
+            <div class="fighters-stage-grid">
+                <!-- Red Corner Fighter -->
+                <div class="fighter-podium-card red-side" id="card-a" title="Click to choose Red Corner Country">
+                    <span class="corner-badge">🔴 RED CORNER</span>
+                    
+                    <div class="character-render-box" id="char-box-a">
+                        <!-- Custom Vector CountryBall injected dynamically -->
+                    </div>
+
+                    <h2 class="country-title-name" id="name-a">United States</h2>
+                    <div class="mascot-name-pill" id="mascot-a">Captain Eagle</div>
+
+                    <div>
+                        <span class="change-country-action">🔄 Change Fighter</span>
+                    </div>
+                </div>
+
+                <!-- Center VS Action -->
+                <div class="vs-action-column">
+                    <div class="vs-burst-container">
+                        <div class="vs-burst-circle">VS</div>
+                    </div>
+
+                    <button class="surprise-match-btn" id="surprise-btn" title="Pick 2 random countries!">
+                        <span>🎲 Surprise Me!</span>
+                    </button>
+                </div>
+
+                <!-- Blue Corner Fighter -->
+                <div class="fighter-podium-card blue-side" id="card-b" title="Click to choose Blue Corner Country">
+                    <span class="corner-badge">🔵 BLUE CORNER</span>
+                    
+                    <div class="character-render-box" id="char-box-b">
+                        <!-- Custom Vector CountryBall injected dynamically -->
+                    </div>
+
+                    <h2 class="country-title-name" id="name-b">Italy</h2>
+                    <div class="mascot-name-pill" id="mascot-b">Chef Nonna</div>
+
+                    <div>
+                        <span class="change-country-action">🔄 Change Fighter</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giant 3D Brawl CTA -->
+            <div class="brawl-cta-wrap">
+                <button class="start-brawl-button" id="start-brawl-btn">
+                    <span class="button-shine"></span>
+                    <span>START BRAWL! 🥊</span>
+                </button>
+                <div class="cta-tagline">⚡ 100% Automatic • 8 Cartoon Rounds • Pure Arcade Fun</div>
+            </div>
+
+            <!-- Category Strip Preview -->
+            <div class="category-strip-preview">
+                <span class="category-strip-title">8 SHOWDOWN BATTLE ARENAS:</span>
+                <div class="category-pill-row">
+                    <span class="arena-pill">🍕 Food</span>
+                    <span class="arena-pill">⚽ Sports</span>
+                    <span class="arena-pill">☀️ Weather</span>
+                    <span class="arena-pill">📜 History</span>
+                    <span class="arena-pill">💪 Might</span>
+                    <span class="arena-pill">🎵 Pop Star</span>
+                    <span class="arena-pill">🦘 Beasts</span>
+                    <span class="arena-pill">💡 Genius</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: BATTLE ARENA (THE NEON RING) -->
+        <section id="battle-screen" class="battle-screen">
+            <!-- Stadium Scoreboard -->
+            <div class="stadium-scoreboard">
+                <div class="scoreboard-fighter">
+                    <span class="fighter-title-name" id="scoreboard-name-a">USA</span>
+                    <span class="score-counter-badge red-counter" id="score-val-a">0</span>
+                </div>
+                <div class="round-center-display">
+                    <span class="current-round-pill" id="current-round-pill">ROUND 1 / 8</span>
+                </div>
+                <div class="scoreboard-fighter">
+                    <span class="score-counter-badge blue-counter" id="score-val-b">0</span>
+                    <span class="fighter-title-name" id="scoreboard-name-b">Italy</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Tug-of-War Balance Bar -->
+            <div class="tug-of-war-meter">
+                <div class="tug-track-red" id="tug-track-red" style="width: 50%;"></div>
+                <div class="tug-center-glove" id="tug-center-glove">🥊</div>
+                <div class="tug-track-blue" id="tug-track-blue" style="width: 50%;"></div>
+            </div>
+
+            <!-- 8-Round Token Tracker Bar -->
+            <div class="match-token-strip" id="match-token-strip">
+                <!-- 8 round progress tokens injected dynamically -->
+            </div>
+
+            <!-- Category Announcement Card -->
+            <div class="category-arena-card">
+                <div class="category-name-big" id="category-name-big">
+                    <span>🍕</span> <span>Food Fight</span>
+                </div>
+                <div class="category-sub-question" id="category-sub-question">
+                    Whose flavor delivers the knockout bite?
+                </div>
+            </div>
+
+            <!-- THE NEON BOXING RING -->
+            <div class="stadium-boxing-ring" id="boxing-ring">
+                <!-- Ring ropes -->
+                <div class="ring-rope rope-1"></div>
+                <div class="ring-rope rope-2"></div>
+                <div class="ring-rope rope-3"></div>
+
+                <!-- Left Fighter (Red Corner) -->
+                <div class="ring-fighter-slot red-fighter-slot" id="ring-slot-a">
+                    <div class="winner-crown-ring" id="crown-a">👑</div>
+                    <div class="floating-points-ring" id="points-a">+1 ⭐</div>
+                    <div class="loser-dizzy-ring" id="dizzy-a">💫😵</div>
+                    <div class="ko-stamp-ring" id="ko-a">💥 KO'D</div>
+
+                    <div class="character-render-ring" id="ring-char-a"></div>
+                    <div class="fighter-ring-tag" id="ring-tag-a">United States</div>
+                    <div class="status-pill-ring" id="status-pill-a"></div>
+                </div>
+
+                <!-- Thrown Flying Weapons -->
+                <div class="thrown-weapon thrown-left" id="weapon-a">🍔</div>
+
+                <!-- Mid-Air Directional Clash Burst -->
+                <div class="impact-blast" id="impact-blast">
+                    <div class="blast-text" id="blast-text">💥 BAM!</div>
+                </div>
+
+                <div class="thrown-weapon thrown-right" id="weapon-b">🍕</div>
+
+                <!-- Right Fighter (Blue Corner) -->
+                <div class="ring-fighter-slot blue-fighter-slot" id="ring-slot-b">
+                    <div class="winner-crown-ring" id="crown-b">👑</div>
+                    <div class="floating-points-ring" id="points-b">+1 ⭐</div>
+                    <div class="loser-dizzy-ring" id="dizzy-b">💫😵</div>
+                    <div class="ko-stamp-ring" id="ko-b">💥 KO'D</div>
+
+                    <div class="character-render-ring" id="ring-char-b"></div>
+                    <div class="fighter-ring-tag" id="ring-tag-b">Italy</div>
+                    <div class="status-pill-ring" id="status-pill-b"></div>
+                </div>
+            </div>
+
+            <!-- UNMISTAKABLE Round Winner Banner -->
+            <div class="round-winner-banner banner-red" id="round-winner-banner" style="display: none;">
+                <div class="winner-banner-title" id="winner-banner-title">
+                    🏆 RED CORNER WINS! (+1 PT)
+                </div>
+                <div class="winner-banner-reason" id="winner-banner-reason">
+                    "Super-sized bacon burger crushes with cheesy power!"
+                </div>
+            </div>
+
+            <!-- Auto-Brawl Controls -->
+            <div class="battle-control-bar">
+                <button class="battle-action-btn" id="pause-brawl-btn" title="Pause / Resume">
+                    ⏸️ Pause
+                </button>
+                <button class="battle-action-btn skip-brawl-btn" id="skip-brawl-btn" title="Skip to the Winner!">
+                    ⚡ Fast-Forward ⏩
+                </button>
+            </div>
+            <div class="battle-status-indicator" id="battle-status-indicator">
+                ⚡ Auto-battling round by round...
+            </div>
+        </section>
+
+        <!-- SCREEN 3: VICTORY PODIUM CELEBRATION -->
+        <section id="victory-screen" class="victory-screen">
+            <div class="podium-gold-trophy">🏆</div>
+            <div class="victory-character-slot" id="victory-char-box">
+                <!-- Winning vector CountryBall injected dynamically -->
+            </div>
+            <h2 class="victory-headline-text" id="victory-headline">ITALY WINS THE MATCH!</h2>
+            <div class="victory-score-pill" id="victory-score-pill">
+                3 — 5
+            </div>
+
+            <div class="victory-action-row">
+                <button class="restart-brawl-btn" id="restart-brawl-btn">
+                    🔄 BRAWL AGAIN
+                </button>
+                <button class="share-brawl-btn" id="share-brawl-btn">
+                    📋 SHARE RESULT
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal: Country Selector -->
+    <div id="modal-backdrop" class="modal-backdrop">
+        <div class="modal-container">
+            <div class="modal-header-bar">
+                <span id="modal-heading-text">Choose Fighter</span>
+                <button class="modal-dismiss-btn" id="modal-dismiss-btn">✕</button>
+            </div>
+            <div class="modal-country-grid" id="modal-country-grid">
+                <!-- Country buttons injected dynamically -->
+            </div>
         </div>
-      </div>
     </div>
 
-    <div class="actions">
-      <button class="big" id="fightBtn" disabled>⚔️ FIGHT!</button>
-      <button class="big" id="randomBtn">🎲 Surprise Me</button>
-    </div>
+    <!-- Arcade Toast Notice -->
+    <div id="arcade-toast" class="arcade-toast"></div>
 
-    <p class="disclaimer">Scores are for-fun vibes on beauty, army, food, weather, culture &amp; tech — not an official ranking 😄</p>
-  </section>
-
-  <!-- ============ BATTLE SCREEN ============ -->
-  <section id="battleScreen" class="screen">
-    <div class="battleHeader">
-      <div class="fighter"><span class="fEmoji" id="battleFlagA"></span><span id="battleNameA"></span></div>
-      <div class="roundInfo" id="roundLabel">Round 1 / 6</div>
-      <div class="fighter"><span class="fEmoji" id="battleFlagB"></span><span id="battleNameB"></span></div>
-    </div>
-
-    <div class="scoreRow" id="scoreRow">
-      <div class="scoreNum" id="scoreA">0</div>
-      <div class="scoreNum" id="scoreB">0</div>
-    </div>
-
-    <div class="categoryCard" id="categoryCard">
-      <div class="catIcon" id="catIcon">🏔️</div>
-      <div class="catName" id="catName">Natural Beauty</div>
-      <div class="barWrap">
-        <div class="barTrack"><div class="barFillA" id="barA"></div></div>
-        <div class="barTrack"><div class="barFillB" id="barB"></div></div>
-      </div>
-    </div>
-
-    <div class="log" id="battleLog"></div>
-  </section>
-
-  <!-- ============ RESULT SCREEN ============ -->
-  <section id="resultScreen" class="screen">
-    <div class="resultWrap">
-      <div class="winnerSide">
-        <div class="crown">👑</div>
-        <div class="winnerFlag" id="winnerFlag"></div>
-        <div class="winnerName" id="winnerName"></div>
-        <div class="winnerTag">CHAMPION</div>
-      </div>
-      <div class="loserSide">
-        <div class="loserFlag" id="loserFlag"></div>
-        <div class="loserName" id="loserName"></div>
-        <div class="loserTag">so close!</div>
-      </div>
-    </div>
-
-    <div class="breakdown" id="breakdown"></div>
-
-    <div class="actions">
-      <button class="big" id="rematchBtn">🔁 Rematch</button>
-      <button class="big" id="shareBtn">📋 Share Result</button>
-      <button class="big" id="newBattleBtn">🆕 New Battle</button>
-    </div>
-  </section>
-
-</main>
-
-<footer class="siteFooter">
-  <div class="footerCredit">Built by <strong>Amin Jan</strong> · MyCountryBeats</div>
-  <div class="socialRow">
-    <a class="socialBtn" href="https://www.linkedin.com/in/amin-jan-614210422/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5ZM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H17v-5.6c0-1.34-.02-3.05-1.86-3.05-1.87 0-2.16 1.46-2.16 2.96V21H9z"/></svg>
-    </a>
-    <a class="socialBtn" href="https://github.com/aminjancodes-lgtm" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.2-3.37-1.2-.46-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
-    </a>
-    <a class="socialBtn" href="https://www.instagram.com/aminjancodes/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
-    </a>
-  </div>
-</footer>
-
-<!-- ============ HOW TO PLAY MODAL ============ -->
-<div class="modalOverlay" id="modalOverlay">
-  <div class="modalCard">
-    <h2>🌍 How to play</h2>
-    <ol>
-      <li>Pick two countries (or hit <strong>Surprise Me</strong>).</li>
-      <li>Watch them battle across 6 categories: beauty, army, food, weather, culture &amp; tech.</li>
-      <li>Whoever wins the most rounds is crowned <strong>Champion</strong>.</li>
-      <li>Rematch, share your result, or start a new battle — again and again!</li>
-    </ol>
-    <button class="big" id="modalCloseBtn" style="background:#3D8BFF;">Got it, let's play!</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-<canvas id="confettiCanvas"></canvas>
-
-<script src="script.js"></script>
+    <!-- Application Scripts -->
+    <script src="js/sfx.js"></script>
+    <script src="js/characters.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

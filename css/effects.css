@@ -1,0 +1,292 @@
+/* ==========================================================================
+   MyCountryBeats - Arcade Visual Effects & Action Keyframes
+   ========================================================================== */
+
+/* VS Badge Pulse */
+@keyframes vsPulse {
+    0%, 100% {
+        transform: scale(1) rotate(-4deg);
+        box-shadow: 0 0 20px rgba(255, 165, 2, 0.6);
+    }
+    50% {
+        transform: scale(1.1) rotate(4deg);
+        box-shadow: 0 0 35px rgba(255, 165, 2, 0.9);
+    }
+}
+
+/* Button Shine Sweep */
+@keyframes shineSweep {
+    0% { left: -100%; }
+    25% { left: 150%; }
+    100% { left: 150%; }
+}
+
+/* Screen Shake */
+@keyframes stadiumShake {
+    0%, 100% { transform: translate(0, 0); }
+    15% { transform: translate(-8px, 5px) rotate(-1deg); }
+    30% { transform: translate(8px, -5px) rotate(1deg); }
+    45% { transform: translate(-5px, -3px); }
+    60% { transform: translate(5px, 3px); }
+    75% { transform: translate(-2px, 1px); }
+}
+
+.stadium-shake-active {
+    animation: stadiumShake 0.45s ease-in-out both;
+}
+
+/* Thrown Weapons Flight */
+@keyframes throwLeftCurve {
+    0% {
+        left: 20%;
+        transform: scale(0.6) rotate(0deg);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.1) rotate(60deg);
+    }
+    100% {
+        left: 45%;
+        transform: scale(1.2) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+@keyframes throwRightCurve {
+    0% {
+        right: 20%;
+        transform: scale(0.6) rotate(0deg);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.1) rotate(-60deg);
+    }
+    100% {
+        right: 45%;
+        transform: scale(1.2) rotate(-180deg);
+        opacity: 1;
+    }
+}
+
+.throw-left-anim {
+    display: block !important;
+    animation: throwLeftCurve 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.throw-right-anim {
+    display: block !important;
+    animation: throwRightCurve 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* WEAPON OVERPOWER: Winning weapon supersizes and crushes! */
+@keyframes weaponOverpowerLeft {
+    0% { transform: scale(1.2) rotate(180deg); }
+    40% { transform: scale(2) rotate(220deg); filter: drop-shadow(0 0 20px #FFD700); }
+    100% { transform: scale(1.6) translate(30px, 0) rotate(240deg); filter: drop-shadow(0 0 25px #FFD700); }
+}
+
+@keyframes weaponOverpowerRight {
+    0% { transform: scale(1.2) rotate(-180deg); }
+    40% { transform: scale(2) rotate(-220deg); filter: drop-shadow(0 0 20px #FFD700); }
+    100% { transform: scale(1.6) translate(-30px, 0) rotate(-240deg); filter: drop-shadow(0 0 25px #FFD700); }
+}
+
+.overpower-left {
+    animation: weaponOverpowerLeft 0.5s ease forwards !important;
+}
+
+.overpower-right {
+    animation: weaponOverpowerRight 0.5s ease forwards !important;
+}
+
+/* WEAPON SHATTER: Losing weapon crumbles and poofs into dust! */
+@keyframes weaponShatter {
+    0% { transform: scale(1.2); opacity: 1; filter: grayscale(0); }
+    30% { transform: scale(0.7) rotate(45deg); opacity: 0.8; filter: grayscale(0.8); }
+    100% { transform: scale(0.1) translateY(40px) rotate(90deg); opacity: 0; }
+}
+
+.shatter-anim {
+    animation: weaponShatter 0.4s ease forwards !important;
+}
+
+/* DIRECTIONAL KNOCKBACK: Loser is launched backward into the ropes! */
+@keyframes launchIntoRopesLeft {
+    0% { transform: translateX(0) scale(1); }
+    30% { transform: translateX(-60px) rotate(-20deg) scale(0.88); }
+    60% { transform: translateX(-40px) rotate(-10deg) scale(0.92); }
+    100% { transform: translateX(-45px) rotate(-12deg) scale(0.9); }
+}
+
+@keyframes launchIntoRopesRight {
+    0% { transform: translateX(0) scale(1); }
+    30% { transform: translateX(60px) rotate(20deg) scale(0.88); }
+    60% { transform: translateX(40px) rotate(10deg) scale(0.92); }
+    100% { transform: translateX(45px) rotate(12deg) scale(0.9); }
+}
+
+.knockback-left {
+    animation: launchIntoRopesLeft 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.knockback-right {
+    animation: launchIntoRopesRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* WINNER VICTORY STRUT: Winner steps into the spotlight! */
+@keyframes winnerStrutLeft {
+    0% { transform: translateX(0) scale(1); }
+    50% { transform: translateX(35px) scale(1.25) translateY(-14px); }
+    100% { transform: translateX(30px) scale(1.2); }
+}
+
+@keyframes winnerStrutRight {
+    0% { transform: translateX(0) scale(1); }
+    50% { transform: translateX(-35px) scale(1.25) translateY(-14px); }
+    100% { transform: translateX(-30px) scale(1.2); }
+}
+
+.strut-left {
+    animation: winnerStrutLeft 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.strut-right {
+    animation: winnerStrutRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Mid-Air Impact Blast */
+@keyframes blastExplosion {
+    0% {
+        transform: translate(-50%, -50%) scale(0.2) rotate(-25deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.35) rotate(5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.05) rotate(-6deg);
+        opacity: 1;
+    }
+}
+
+.blast-anim {
+    display: block !important;
+    animation: blastExplosion 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Winner Celebration */
+@keyframes winnerFlip {
+    0%, 100% {
+        transform: translateY(0) scale(1.08);
+    }
+    30% {
+        transform: translateY(-28px) scale(1.22) rotate(8deg);
+    }
+    60% {
+        transform: translateY(-12px) scale(1.15) rotate(-8deg);
+    }
+}
+
+.winner-jump {
+    animation: winnerFlip 1.2s infinite ease-in-out;
+}
+
+/* Crown Bounce on Winner */
+@keyframes crownBounce {
+    0% { transform: translateY(-30px) scale(0); opacity: 0; }
+    60% { transform: translateY(8px) scale(1.4); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.crown-pop {
+    display: block !important;
+    animation: crownBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Floating Points */
+@keyframes pointsFloatUp {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+    }
+    40% {
+        transform: translateY(-28px) scale(1.3);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-46px) scale(1);
+        opacity: 1;
+    }
+}
+
+.points-float {
+    display: block !important;
+    animation: pointsFloatUp 0.65s ease forwards;
+}
+
+/* KO Stamp Slam */
+@keyframes koSlam {
+    0% { transform: scale(3.5) rotate(-45deg); opacity: 0; }
+    70% { transform: scale(0.9) rotate(-15deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-15deg); opacity: 1; }
+}
+
+.ko-slam {
+    display: block !important;
+    animation: koSlam 0.35s ease forwards;
+}
+
+/* Loser Dizzy Wobble */
+@keyframes loserDizzy {
+    0%, 100% {
+        transform: rotate(0deg) scale(0.95);
+        filter: grayscale(0.4);
+    }
+    25% {
+        transform: rotate(-14deg) scale(0.95);
+    }
+    75% {
+        transform: rotate(14deg) scale(0.95);
+    }
+}
+
+.loser-wobble {
+    animation: loserDizzy 0.6s infinite ease-in-out;
+}
+
+/* Winner Banner Pop */
+@keyframes bannerPop {
+    0% {
+        transform: scale(0.75);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Trophy Dance */
+@keyframes trophyDance {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    25% { transform: translateY(-20px) rotate(-6deg) scale(1.12); }
+    75% { transform: translateY(-20px) rotate(6deg) scale(1.12); }
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+}

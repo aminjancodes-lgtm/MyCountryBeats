@@ -1,0 +1,287 @@
+/* ==========================================================================
+   MyCountryBeats - Action Battle & Visual Delight Animations
+   ========================================================================== */
+
+/* Logo Boxing Gloves Bobbing */
+@keyframes logoGlovesBob {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-3px) rotate(2deg);
+    }
+}
+
+/* Background Stars Drift */
+@keyframes floatDrift {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+    50% {
+        transform: translateY(-16px) rotate(15deg) scale(1.1);
+    }
+}
+
+/* Background Clouds Glide */
+@keyframes cloudGlide {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(30px); }
+    100% { transform: translateX(0); }
+}
+
+/* VS Radial Glow Pulse */
+@keyframes vsGlowPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 1;
+    }
+}
+
+/* Button Shine Sweep */
+@keyframes shineSweep {
+    0% { left: -100%; }
+    20% { left: 150%; }
+    100% { left: 150%; }
+}
+
+/* Fight Splash Intro */
+@keyframes splashFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fightPop {
+    0% {
+        transform: scale(0.3) rotate(-15deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.3) rotate(5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(-3deg);
+        opacity: 1;
+    }
+}
+
+/* VS Badge Wobble */
+@keyframes vsWobble {
+    0%, 100% { transform: rotate(-5deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.08); }
+}
+
+/* Brawl Start Button Pulse */
+@keyframes brawlPulse {
+    0%, 100% {
+        box-shadow: 0 10px 0px var(--border-color), 0 16px 20px rgba(0,0,0,0.15);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 13px 0px var(--border-color), 0 20px 25px rgba(46, 213, 115, 0.4);
+        transform: scale(1.025);
+    }
+}
+
+/* Crowd Hype Bobbing */
+@keyframes hypeBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Thrown items flying to clash in the center */
+@keyframes flyLeftToCenter {
+    0% {
+        left: 20%;
+        transform: scale(0.6) rotate(0deg);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.1) rotate(45deg);
+    }
+    100% {
+        left: 44%;
+        transform: scale(1.3) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+@keyframes flyRightToCenter {
+    0% {
+        right: 20%;
+        transform: scale(0.6) rotate(0deg);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.1) rotate(-45deg);
+    }
+    100% {
+        right: 44%;
+        transform: scale(1.3) rotate(-180deg);
+        opacity: 1;
+    }
+}
+
+.throw-left-anim {
+    display: block !important;
+    animation: flyLeftToCenter 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.throw-right-anim {
+    display: block !important;
+    animation: flyRightToCenter 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Impact explosion BAM! */
+@keyframes impactPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0.2) rotate(-25deg);
+        opacity: 0;
+    }
+    60% {
+        transform: translate(-50%, -50%) scale(1.25) rotate(-5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotate(-8deg);
+        opacity: 1;
+    }
+}
+
+.impact-anim {
+    display: block !important;
+    animation: impactPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Winner Celebration Jump */
+@keyframes winnerCelebration {
+    0%, 100% {
+        transform: translateY(0) scale(1.05);
+    }
+    30% {
+        transform: translateY(-24px) scale(1.2) rotate(6deg);
+    }
+    60% {
+        transform: translateY(-10px) scale(1.15) rotate(-6deg);
+    }
+}
+
+.winner-jump {
+    animation: winnerCelebration 1.2s infinite ease-in-out;
+}
+
+/* Crown Bounce on Winner */
+@keyframes crownBounce {
+    0% { transform: translateY(-20px) scale(0); opacity: 0; }
+    60% { transform: translateY(5px) scale(1.3); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.crown-pop {
+    display: block !important;
+    animation: crownBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Floating +1 Point */
+@keyframes floatPlusOne {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+    }
+    40% {
+        transform: translateY(-24px) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-40px) scale(1);
+        opacity: 1;
+    }
+}
+
+.points-float {
+    display: block !important;
+    animation: floatPlusOne 0.6s ease forwards;
+}
+
+/* KO Stamp on Loser */
+@keyframes koStampSlam {
+    0% { transform: scale(3) rotate(-40deg); opacity: 0; }
+    70% { transform: scale(0.9) rotate(-15deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-15deg); opacity: 1; }
+}
+
+.ko-stamp-slam {
+    display: block !important;
+    animation: koStampSlam 0.3s ease forwards;
+}
+
+/* Loser Dizzy Wobble */
+@keyframes dizzyWobble {
+    0%, 100% {
+        transform: rotate(0deg) scale(0.95);
+        filter: grayscale(0.3);
+    }
+    25% {
+        transform: rotate(-12deg) scale(0.95);
+    }
+    75% {
+        transform: rotate(12deg) scale(0.95);
+    }
+}
+
+.loser-dizzy {
+    animation: dizzyWobble 0.6s infinite ease-in-out;
+}
+
+/* Ring Impact Shake */
+@keyframes ringShake {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-4px, 3px); }
+    40% { transform: translate(4px, -3px); }
+    60% { transform: translate(-3px, -2px); }
+    80% { transform: translate(3px, 2px); }
+}
+
+.shake-active {
+    animation: ringShake 0.35s ease-in-out both;
+}
+
+/* Verdict Banner Pop */
+@keyframes verdictPop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.03);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Trophy Dance */
+@keyframes trophyDance {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-16px) rotate(-6deg) scale(1.1); }
+    75% { transform: translateY(-16px) rotate(6deg) scale(1.1); }
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+}
