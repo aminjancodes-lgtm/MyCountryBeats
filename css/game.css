@@ -1086,3 +1086,141 @@ main {
     display: none;
     z-index: 2000;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE & TOUCH-FRIENDLY OVERRIDES
+   ========================================================================== */
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Let the character SVGs shrink to fit their container instead of
+   overflowing at their fixed pixel size */
+.country-ball-svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.character-render-box,
+.character-render-ring,
+.victory-character-slot {
+    max-width: 100%;
+}
+
+/* Comfortable tap targets, no 300ms tap delay, no blue flash on tap */
+button,
+.fighter-podium-card,
+.surprise-match-btn,
+.country-grid-button,
+.change-country-action,
+a {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.sound-toggle-btn,
+.battle-action-btn,
+.modal-dismiss-btn {
+    min-height: 40px;
+}
+
+/* Respect notches / home-indicator areas on modern phones */
+@supports (padding: max(0px)) {
+    header {
+        padding-left: max(24px, env(safe-area-inset-left));
+        padding-right: max(24px, env(safe-area-inset-right));
+    }
+    main {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+}
+
+/* ---------- Tablets & large phones ---------- */
+@media (max-width: 600px) {
+    header { padding: 10px 16px; }
+    .logo-title { font-size: 1.55rem; }
+    .sound-toggle-btn { padding: 7px 14px; font-size: 0.88rem; }
+
+    main { margin: 16px auto; padding: 0 12px; }
+    .hero-subtext { font-size: 1.05rem; }
+    .fighters-stage-grid { margin-bottom: 24px; }
+
+    .stadium-scoreboard {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px 16px;
+        padding: 12px 16px;
+    }
+    .round-center-display { order: -1; flex-basis: 100%; margin-bottom: 4px; }
+    .fighter-title-name { font-size: 1.1rem; }
+    .score-counter-badge { font-size: 1.4rem; padding: 3px 12px; }
+
+    .stadium-boxing-ring {
+        min-height: 230px;
+        padding: 18px 10px;
+    }
+    .ring-fighter-slot { padding: 6px; max-width: 40%; min-width: 0; }
+    .fighter-ring-tag { font-size: 1rem; margin-top: 4px; }
+    .thrown-weapon { font-size: 2.6rem; }
+    .blast-text { font-size: 2.2rem; padding: 8px 18px; border-width: 3px; }
+    .winner-crown-ring { font-size: 1.9rem; top: -20px; }
+    .floating-points-ring { font-size: 1.3rem; padding: 2px 10px; }
+    .loser-dizzy-ring { font-size: 1.6rem; }
+    .ko-stamp-ring { font-size: 1.1rem; padding: 3px 9px; }
+
+    .match-token { width: 34px; height: 34px; font-size: 1rem; }
+    .match-token-strip { gap: 6px; }
+
+    .battle-control-bar { gap: 10px; }
+    .battle-action-btn { padding: 10px 16px; font-size: 0.95rem; }
+    .skip-brawl-btn { font-size: 1rem; }
+
+    .category-name-big { font-size: 1.3rem; }
+    .category-sub-question { font-size: 0.9rem; }
+
+    .victory-screen { padding: 30px 18px; }
+    .podium-gold-trophy { font-size: 4.2rem; }
+    .victory-score-pill { padding: 7px 22px; font-size: 1.3rem; margin-bottom: 22px; }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 420px) {
+    .header-wrap { flex-wrap: wrap; row-gap: 8px; }
+    .logo-title { font-size: 1.3rem; }
+    .logo-tag { font-size: 0.6rem; letter-spacing: 1px; }
+    .logo-svg { width: 36px; height: 30px; }
+    .sound-toggle-btn { padding: 6px 12px; font-size: 0.78rem; }
+
+    .fighter-podium-card { padding: 18px 12px 16px; }
+    .character-render-box { min-height: 110px; }
+    .character-render-box .country-ball-svg { max-width: 100px; }
+    .country-title-name { font-size: 1.45rem; }
+    .mascot-name-pill { font-size: 0.85rem; }
+
+    .start-brawl-button { font-size: 1.5rem; padding: 16px 28px; }
+    .vs-burst-circle { width: 58px; height: 58px; font-size: 1.8rem; }
+    .surprise-match-btn { font-size: 0.9rem; padding: 8px 16px; }
+
+    .stadium-boxing-ring { min-height: 205px; padding: 14px 8px; }
+    .ring-fighter-slot .country-ball-svg { max-width: 82px; }
+    .thrown-weapon { font-size: 2.1rem; }
+
+    .victory-character-slot .country-ball-svg { max-width: 110px; }
+    .victory-headline-text { margin-bottom: 4px; }
+
+    .modal-country-grid { grid-template-columns: 1fr; }
+    .modal-header-bar { padding: 14px 16px; font-size: 1.15rem; }
+}
+
+/* ---------- Very narrow screens: stack action buttons full-width ---------- */
+@media (max-width: 360px) {
+    .battle-control-bar { flex-direction: column; align-items: stretch; }
+    .victory-action-row { flex-direction: column; align-items: stretch; }
+    .restart-brawl-btn, .share-brawl-btn { width: 100%; text-align: center; }
+}
